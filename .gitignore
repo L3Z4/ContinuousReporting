@@ -1,0 +1,47 @@
+*.aps
+*.bak
+*.cache
+*.coverage
+*.dll
+*.ilk
+*.log
+*.ncb
+*.nupkg
+*.orig
+*.pch
+*.pdb
+*.sbr
+*.ldf
+*.mdf
+*.pubxml
+*.tfb
+*.tf1
+*.gz
+*.rw
+
+#Ignore files built by Visual Studio
+*.suo
+*.user
+*.vspscc
+*.vssscc
+*.vssscc
+
+*TestResults*
+*_i.c
+*_p.c
+
+#ignore thumbnails created by windows
+Thumbs.db
+
+[Bb]in/
+[Oo]bj/
+[Dd]ebug*/
+[Rr]elease*/
+_ReSharper*/
+packages/
+packages/*/
+
+Solution/*/
+*.coverage
+*/Coverage Reports/*
+*.DotSettings
