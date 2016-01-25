@@ -1,0 +1,17 @@
+﻿@model ContinuousReporting.ViewModels.ChallengesViewModel
+
+@foreach (var month in Model.MonthChallenges)
+{
+    <div class="row">
+        <h1>Challenge @month.Date.ToString("MMMM yyyy")</h1>
+        <ol>
+            @foreach (var challengeSummary in month.Summary)
+            {
+                <li style="width: 35em; padding-left: 5px; margin: 10px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px; border-left-color: @(challengeSummary.Points > 0 ? "green" : "red"); font-size: 16px">
+                    <span>@challengeSummary.Name</span>
+                    <span> (@challengeSummary.Points)</span>
+                </li>
+            }
+        </ol>
+    </div>
+}

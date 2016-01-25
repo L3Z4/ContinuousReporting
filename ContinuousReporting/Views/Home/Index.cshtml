@@ -1,0 +1,138 @@
+﻿@using System.Globalization
+@using System.Linq
+@model ContinuousReporting.ViewModels.HomeViewModel
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-4">
+                <h2>@Html.ActionLink("Challenge " + @DateTime.UtcNow.ToString("MMMM yyyy"), "Challenges", "Home")</h2>
+                <ol>
+                    @foreach (var challengeSummary in @Model.Challenges)
+                    {
+                        <li style="padding-left: 5px; margin: 10px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px; border-left-color: @(challengeSummary.Points > 0 ? "green" : "red"); font-size: 16px">
+                            <span>@challengeSummary.Name</span>
+                            <span> (@challengeSummary.Points)</span>
+                        </li>
+                    }
+                </ol>
+            </div>
+            <div class="col-md-8">
+
+                <div class="text-center" style="margin-top: -100px;">
+                    <canvas id="myChart"
+                            width="800"
+                            height="800"
+                            data-x-values="@Model.CoverageStat.Modules"
+                            data-y-values="@Model.CoverageStat.Coverages"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            @foreach (var build in @Model.Builds)
+            {
+                <div class="@(build.ActualBuild.Status == "succeeded" ? "bg-success" : "bg-danger") col-md-4" style="padding-top: 10px; padding-right: 10px;">
+                    <div class="thumbnail">
+                        <h2>@Html.ActionLink(build.ActualBuild.BuildName, "About", "Home", new { id = build.ActualBuild.Definition }, null)</h2>
+                        @if (build.Challenge != null)
+                        {
+                            <p style="position: absolute; right: 5px; top: 5px">
+                                <img src="@String.Format("http://www.gravatar.com/avatar/{0}", build.UserGravatar)" title="@build.ActualBuild.User" />
+                            </p>
+                            if (build.Challenge.Points != null)
+                            {
+                                <p style="position: absolute; right: 5px; bottom: 5px">
+                                    @build.Challenge.Points.ToString("F4") points
+                                </p>
+                            }
+                        }
+                        <div><label>@build.BuildDate @build.BuildTime</label></div>
+
+                        <div>
+                            @if (!double.IsNaN(build.ActualAverageCoverage))
+                            {
+                                <div class="progress">
+                                    @if (build.ActualAverageCoverage > 80)
+                                    {
+                                        <div class="progress-bar progress-bar-success" style="width: @build.ActualAverageCoverage.ToString(CultureInfo.InvariantCulture)%;">@build.ActualAverageCoverage.ToString("F2")%</div>
+                                    }
+                                    else if (build.ActualAverageCoverage < 50)
+                                    {
+                                        <div class="progress-bar progress-bar-danger" style="width: @build.ActualAverageCoverage.ToString(CultureInfo.InvariantCulture)%;">@build.ActualAverageCoverage.ToString("F2")%</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="progress-bar progress-bar-warning" style="width: @build.ActualAverageCoverage.ToString(CultureInfo.InvariantCulture)%;">@build.ActualAverageCoverage.ToString("F2")%</div>
+                                    }
+                                </div>
+                                <div class="panel-group" id="coverageDetails">
+                                    <a class="btn btn-default btn-sm accordion-toggle" data-toggle="collapse" data-parent="#coverageDetails" href=".@string.Format("{0}_Detail", build.ActualBuild.BuildName.Replace('.', '_'))">Coverage detail</a>
+                                    @Html.Raw(@build.ActualBuild.Link)
+                                    <ul class="@string.Format("{0}_Detail", build.ActualBuild.BuildName.Replace('.', '_')) collapse">
+                                        @if (build.ActualBuild.CoverageCollection != null)
+                                        {
+                                            foreach (var coverage in build.ActualBuild.CoverageCollection)
+                                            {
+                                                <li>
+                                                    @coverage.Name<br />
+                                                    <div class="progress">
+                                                        @if (coverage.ComputedAverage > 80)
+                                                        {
+                                                            <div class="progress-bar progress-bar-success" style="width: @coverage.ComputedAverage.ToString(CultureInfo.InvariantCulture)%;">@coverage.ComputedAverage%</div>
+                                                        }
+                                                        else if (coverage.ComputedAverage < 50)
+                                                        {
+                                                            <div class="progress-bar progress-bar-danger" style="width: @coverage.ComputedAverage.ToString(CultureInfo.InvariantCulture)%;">@coverage.ComputedAverage%</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="progress-bar progress-bar-warning" style="width: @coverage.ComputedAverage.ToString(CultureInfo.InvariantCulture)%;">@coverage.ComputedAverage%</div>
+                                                        }
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        @foreach (var build in Model.ShootBoxBuilds)
+        {
+            <div style="padding-left: 5px; margin: 10px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px; border-left-color: @build.BuildColor; font-size: 10px">
+                <span>@build.BuildName</span><br />
+                <span>@build.BuildDate</span>
+
+                <span style="color: @(build.SumPoints > 0 ? "green" : build.SumPoints == 0 ? "orange" : "red"); float: right; margin: 4px;">(@build.SumPoints)</span>
+                <span style="color: @(build.SumPoints > 0 ? "green" : build.SumPoints == 0 ? "orange" : "red"); float: right; margin: 4px;">@build.User</span>
+                @if (build.DetailPoints != null && build.DetailPoints.Any())
+                {
+                    <div class="panel-group" id="coverageDetails">
+                        <a class="btn btn-default btn-sm accordion-toggle" data-toggle="collapse" data-parent="#coverageDetails" href=".@build.BuildName.Replace('.', '_')">Coverage detail</a>
+                        <ul class="@build.BuildName.Replace('.', '_') collapse">
+
+                            @foreach (var detail in build.DetailPoints)
+                            {
+                                <li>@detail.Module => @detail.DeltaCoverage.ToString("F4")%</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                <div style="clear: both;"></div>
+            </div>
+        }
+    </div>
+</div>

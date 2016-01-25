@@ -1,0 +1,46 @@
+﻿@using System.Web.Mvc.Html
+@model ContinuousReporting.ViewModels.AboutViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("SelectBuild", "Home"))
+        {
+            @Html.DropDownList("buildName", @Model.BuildNames)
+            <input type="submit" value="Go" />
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="page-header">
+            <h1>@Model.BuildName</h1>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h2>@Model.Message</h2>
+        @if (Model.AverageStatistics != null)
+        {
+            <canvas id="MainChart"
+                    width="1000"
+                    height="500"
+                    data-x-values="@Model.AverageStatistics.Dates"
+                    data-y-values="@Model.AverageStatistics.Coverages"></canvas>
+        }
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("About", "Home"))
+        {
+            @Html.HiddenFor(model => model.BuildName);
+            @Html.DropDownList("mode", @Model.StatisticModes, "Select a mode")
+            <input type="submit" value="Go" />
+        }
+    </div>
+</div>
