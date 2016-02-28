@@ -1,9 +1,8 @@
-using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
+
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 [assembly: AssemblyCompany("")]
@@ -18,3 +17,4 @@ using System.Runtime.Versioning;
 [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
 [assembly: ComVisible(false)]
 [assembly: Guid("fd9e07c8-b22f-40c5-9af3-761b7547b227")]
+[assembly: InternalsVisibleTo("ContinuousReporting.UnitTests")]

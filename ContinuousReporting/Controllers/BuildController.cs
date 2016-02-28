@@ -64,7 +64,7 @@ namespace ContinuousReporting.Controllers
                         throw new ApplicationException("Please configuration VSO.OrganisationName and VSO.ProjectName first.");
 
                     var api = new ApiWrapper(ConfigurationManager.AppSettings["VSO.OrganisationName"], ConfigurationManager.AppSettings["VSO.ProjectName"]);
-                    var coverage = await api.GetBuildCoverage(build);
+                    var coverage = await api.GetBuildCoverageAsync(build);
                     if (coverage != null)
                     {
                         foreach (var moduleCoverage in coverage)

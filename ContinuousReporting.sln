@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FF10FF
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Sql.Database", "Sql.Database\Sql.Database.sqlproj", "{EFA7FA12-A53C-4532-9BE9-7B3DAE1585CD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{4AAB2AF7-0BAE-49E3-A7EB-B3E106171739}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContinuousReporting.UnitTests", "UnitTests\ContinuousReporting.UnitTests.csproj", "{07B56286-608B-4B5B-85DC-E199F2D83771}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,8 +40,15 @@ Global
 		{EFA7FA12-A53C-4532-9BE9-7B3DAE1585CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFA7FA12-A53C-4532-9BE9-7B3DAE1585CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EFA7FA12-A53C-4532-9BE9-7B3DAE1585CD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{07B56286-608B-4B5B-85DC-E199F2D83771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07B56286-608B-4B5B-85DC-E199F2D83771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07B56286-608B-4B5B-85DC-E199F2D83771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07B56286-608B-4B5B-85DC-E199F2D83771}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{07B56286-608B-4B5B-85DC-E199F2D83771} = {4AAB2AF7-0BAE-49E3-A7EB-B3E106171739}
 	EndGlobalSection
 EndGlobal

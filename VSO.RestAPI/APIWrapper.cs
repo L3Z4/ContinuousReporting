@@ -21,7 +21,7 @@ namespace VSO.RestAPI
             vsoProjectName_ = vsoProjectName;
         }
 
-        public async Task<ModuleCoverage[]> GetBuildCoverage(ServiceHooks.HttpModel.HttpHookBuild build)
+        public async Task<ModuleCoverage[]> GetBuildCoverageAsync(ServiceHooks.HttpModel.HttpHookBuild build)
         {
             if (build == null)
                 return null;
@@ -30,7 +30,7 @@ namespace VSO.RestAPI
             return ComputeCoverage(buildDetail);
         }
 
-        private static ModuleCoverage[] ComputeCoverage(BuildDetails buildDetail)
+        internal static ModuleCoverage[] ComputeCoverage(BuildDetails buildDetail)
         {
             if (buildDetail == null)
                 return null;
@@ -42,7 +42,7 @@ namespace VSO.RestAPI
                 if (coverage == null) continue;
                 foreach (var module in coverage.modules)
                 {
-                    if (module.name.Contains("unittest")) continue;
+                    if (module.name.ToLower().Contains("unittest")) continue;
                     var moduleDetail = new ModuleCoverage
                     {
                         Name = module.name,
