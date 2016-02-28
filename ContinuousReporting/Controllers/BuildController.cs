@@ -32,7 +32,7 @@ namespace ContinuousReporting.Controllers
         [HttpPost, Route("api/Build")]
         public async Task<IHttpActionResult> Post([FromBody] HttpHookBuild build)
         {
-            var knowDefinitionsBuilds = ConfigurationManager.AppSettings["ExpectedBuilds"].Split('|');
+            var knowDefinitionsBuilds = ConfigurationManager.AppSettings["ExpectedBuilds"].Split('|').Where(i => !string.IsNullOrEmpty(i)).ToArray();
             if (knowDefinitionsBuilds.Any() && !knowDefinitionsBuilds.Contains(build.resource.definition.name))
                 return Ok();
 
@@ -53,6 +53,9 @@ namespace ContinuousReporting.Controllers
                         User = request != null ? request.requestedFor.uniqueName : "Unknown user",
                         CoverageCollection = new Collection<CoverageEntity>()
                     };
+
+                    if (buildEntity.User == "Project Collection Service Accounts")
+                        buildEntity.User = "TeamBuild_CI";
 
                     if (buildEntity.User == ConfigurationManager.AppSettings["VsoUsername"])
                         return Ok();
