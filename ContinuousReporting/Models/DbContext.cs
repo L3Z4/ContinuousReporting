@@ -11,8 +11,6 @@ namespace ContinuousReporting.Models
         public ReportingContext()
             : base("ReportingDb")
         {
-            var initializing = new CreateDatabaseIfNotExists<ReportingContext>();
-            initializing.InitializeDatabase(this);
         }
 
         public IDbSet<BuildEntity> Builds { get; set; }
