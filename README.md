@@ -3,6 +3,7 @@
 ## Synopsis
 
 This project is a graphical way, for a single developer or a team, to trace activities in an application built by Visual Studio Online (Team Fundation Service).
+A sample is available here : http://continuousreporting.azurewebsites.net/ !
 
 ## Motivation
 
